@@ -1,0 +1,20 @@
+2025-04-07 11:49:29,734 - INFO - Starting Kafka stream processing...
+2025-04-07 11:49:31,535 - ERROR - Pipeline failed: [UNABLE_TO_INFER_SCHEMA] Unable to infer schema for Parquet. It must be specified manually.
+2025-04-07 11:49:31,535 - ERROR - Detailed stack trace
+Traceback (most recent call last):
+  File "/home/kajome/Big Data Essentials/churnpredictions/scripts/spark_pipeline.py", line 459, in <module>
+    process_stream()
+  File "/home/kajome/Big Data Essentials/churnpredictions/scripts/spark_pipeline.py", line 197, in process_stream
+    initial_df = spark.read.parquet("churn_data/raw_historical_parquet") if os.path.exists("churn_data/raw_historical_parquet") else None
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/spark/python/lib/pyspark.zip/pyspark/sql/readwriter.py", line 544, in parquet
+    return self._df(self._jreader.parquet(_to_seq(self._spark._sc, paths)))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/spark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py", line 1322, in __call__
+    return_value = get_return_value(
+                   ^^^^^^^^^^^^^^^^^
+  File "/usr/local/spark/python/lib/pyspark.zip/pyspark/errors/exceptions/captured.py", line 185, in deco
+    raise converted from None
+pyspark.errors.exceptions.captured.AnalysisException: [UNABLE_TO_INFER_SCHEMA] Unable to infer schema for Parquet. It must be specified manually.
+2025-04-07 11:49:31,644 - INFO - Pipeline completed
+2025-04-07 11:49:31,645 - INFO - Closing down clientserver connection

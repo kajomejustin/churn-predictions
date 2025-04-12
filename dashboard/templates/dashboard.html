@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Churn Prediction Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap5.min.css" rel="stylesheet" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3><i class=""></i> Churn Dashboard</h3>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <a class="active" href="#overview"><i class="fas fa-home"></i><span>Overview</span></a>
+        <a href="#charts"><i class="fas fa-chart-pie"></i><span>Visualizations</span></a>
+        <a href="#predictions"><i class="fas fa-table"></i><span>Predictions</span></a>
+    </div>
+    <div class="content" id="content">
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark/light mode">
+            <i class="fas fa-moon"></i>
+        </button>
+        
+        <!-- Overview section -->
+        <section id="overview">
+            <div class="page-header">
+                <div>
+                    <h1 class="mb-1">Churn Prediction Dashboard</h1>
+                    <p class="text-muted">Monitor and analyze customer churn predictions</p>
+                </div>
+                <div class="d-flex align-items-center">
+                    <button class="refresh-btn" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i> Refresh Data
+                    </button>
+                </div>
+            </div>
+            <div class="filters-container">
+                <div class="row">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <label for="subscriptionFilter">Subscription Type:</label>
+                        <select class="form-select" id="subscriptionFilter">
+                            <option value="">All Subscriptions</option>
+                            <option value="Basic">Basic</option>
+                            <option value="Standard">Standard</option>
+                            <option value="Premium">Premium</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <label for="ageFilter">Age Range:</label>
+                        <select class="form-select" id="ageFilter">
+                            <option value="">All Ages</option>
+                            <option value="18-30">18-30</option>
+                            <option value="31-50">31-50</option>
+                            <option value="51+">51+</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="churnPredictionFilter">Churn Prediction:</label>
+                        <select class="form-select" id="churnPredictionFilter">
+                            <option value="">All Predictions</option>
+                            <option value="1">Likely to Churn</option>
+                            <option value="0">Unlikely to Churn</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card stat-card customers-card">
+                        <div class="icon"><i class="fas fa-users"></i></div>
+                        <div class="details">
+                            <h2 id="totalCustomers">0</h2>
+                            <p>Total Customers</p>
+                        </div>
+                        <button class="tooltip-card" title="Total number of customers in the system">
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card stat-card churn-card">
+                        <div class="icon"><i class="fas fa-user-minus"></i></div>
+                        <div class="details">
+                            <h2 id="churnRate">0%</h2>
+                            <p>Churn Rate</p>
+                        </div>
+                        <button class="tooltip-card" title="Percentage of customers predicted to churn">
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                        <div class="risk-indicator" id="churnRiskIndicator">
+                            <div class="risk-indicator-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card stat-card spend-card">
+                        <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="details">
+                            <h2 id="avgSpend">$0</h2>
+                            <p>Average Spend</p>
+                        </div>
+                        <button class="tooltip-card" title="Average amount spent by customers">
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Charts section -->
+        <section id="charts">
+            <div class="page-header">
+                <h2 class="mb-1">Data Visualizations</h2>
+                <div class="date-filter-container">
+                    <div class="dropdown">
+                        <button aria-expanded="false" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" id="timeframeDropdown" type="button">
+                            <i class="far fa-calendar-alt"></i> Last 30 Days
+                        </button>
+                        <ul aria-labelledby="timeframeDropdown" class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="setTimeframe('7')">Last 7 Days</a></li>
+                            <li><a class="dropdown-item active" href="#" onclick="setTimeframe('30')">Last 30 Days</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setTimeframe('90')">Last 90 Days</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setTimeframe('365')">Last 365 Days</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="m-0">Churn Distribution</h5>
+                            <div>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="downloadChart('churnChart', 'churn-distribution')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="churnChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="m-0">Subscription Type Distribution</h5>
+                            <div>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="downloadChart('subscriptionChart', 'subscription-distribution')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="subscriptionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="m-0">Total Spend vs. Tenure</h5>
+                            <div>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="downloadChart('scatterChart', 'spend-vs-tenure')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="scatterChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="m-0">Average Spend by Tenure</h5>
+                            <div>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="downloadChart('lineChart', 'avg-spend-by-tenure')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="lineChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Predictions section -->
+        <section id="predictions">
+            <div class="page-header">
+                <h2 class="mb-1">Customer Predictions</h2>
+                <div>
+                    <button class="btn-export" id="exportCSVBtn">
+                        <i class="fas fa-file-csv"></i> Export CSV
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body p-0">
+                    <table class="table table-striped table-hover w-100" id="predictionsTable">
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Tenure</th>
+                                <th>Total Spend</th>
+                                <th>Age</th>
+                                <th>Usage Frequency</th>
+                                <th>Support Calls</th>
+                                <th>Payment Delay</th>
+                                <th>Last Interaction</th>
+                                <th>Churn Prediction</th>
+                                <th>Subscription Type</th>
+                                <th>Prediction Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Table rows will be populated by DataTables -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Error notification toast -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="errorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-danger text-white">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <strong class="me-auto">Error</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="errorToastMessage">
+                    An error occurred.
+                </div>
+            </div>
+            
+            <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-success text-white">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <strong class="me-auto">Success</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="successToastMessage">
+                    Operation completed successfully.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Load scripts in correct order -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+asgiref==3.8.1
+channels==4.2.2
+Django==5.2
+kafka-python==2.1.5
+numpy==2.2.4
+pandas==2.2.3
+pyspark==3.5.5
