@@ -2290,3 +2290,77 @@ Dashboard data request: subscription_type=, age_range=, churn_prediction=, timef
 Get predictions: draw=9, start=0, length=10, search=
 Dashboard data request: subscription_type=, age_range=, churn_prediction=, timeframe=30
 Get predictions: draw=10, start=0, length=10, search=
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Dashboard data request: subscription_type=, age_range=, churn_prediction=, timeframe=30
+Get predictions: draw=1, start=0, length=10, search=
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Get predictions: draw=2, start=10, length=10, search=
+Not Found: /ws/dashboard/
+Get predictions: draw=3, start=20, length=10, search=
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Watching for file changes with StatReloader
+Dashboard data request: subscription_type=, age_range=, churn_prediction=, timeframe=30
+Not Found: /favicon.ico
+Get predictions: draw=1, start=0, length=10, search=
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Watching for file changes with StatReloader
+Dashboard data request: subscription_type=, age_range=, churn_prediction=, timeframe=30
+Not Found: /favicon.ico
+Get predictions: draw=1, start=0, length=10, search=
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Watching for file changes with StatReloader
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Not Found: /ws/dashboard/
+Dashboard data request: subscription_type=, age_range=, churn_prediction=, timeframe=30
+Get predictions: draw=2, start=0, length=10, search=
+Get predictions: draw=1, start=0, length=10, search=
+Get predictions: draw=2, start=0, length=10, search=
+Get predictions: draw=3, start=0, length=10, search=
+Get predictions: draw=4, start=0, length=10, search=
+Dashboard data request: subscription_type=, age_range=, churn_prediction=, timeframe=30
+Get predictions: draw=1, start=0, length=10, search=
+Get predictions: draw=2, start=0, length=10, search=
+Dashboard data request: subscription_type=, age_range=, churn_prediction=, timeframe=30
+Get predictions: draw=1, start=0, length=10, search=
+Get predictions: draw=2, start=0, length=10, search=
+Get predictions: draw=3, start=10, length=10, search=
+Dashboard data request: subscription_type=, age_range=, churn_prediction=, timeframe=30
+Get predictions: draw=1, start=0, length=10, search=
+Dashboard data request: subscription_type=, age_range=, churn_prediction=, timeframe=30
+Get predictions: draw=1, start=0, length=10, search=
+Get predictions: draw=2, start=0, length=10, search=
