@@ -1,0 +1,46 @@
+2025-04-14 21:24:33,477 - INFO - Starting Kafka stream processing...
+2025-04-14 21:24:41,268 - INFO - Successfully loaded historical data with 139393 records
+2025-04-14 21:24:43,963 - INFO - Using existing historical data with 139393 records
+2025-04-14 21:24:46,123 - INFO - Historical dataset is large, sampling 21.52% for initial model
+2025-04-14 21:24:55,417 - INFO - Training model...
+2025-04-14 21:24:58,122 - INFO - Training dataset is large, sampling 99.30% for training
+2025-04-14 21:25:06,996 - INFO - Model AUC: 0.496
+2025-04-14 21:25:07,290 - INFO - Callback Server Starting
+2025-04-14 21:25:07,290 - INFO - Socket listening on ('127.0.0.1', 39737)
+2025-04-14 21:25:07,918 - INFO - Python Server ready to receive messages
+2025-04-14 21:25:07,918 - INFO - Received command c on object id p0
+2025-04-14 21:25:09,149 - INFO - Processing batch 870 with 1000 records
+2025-04-14 21:25:09,318 - INFO - Batch contains 1000 labeled records and 0 unlabeled records
+2025-04-14 21:25:09,653 - INFO - Preprocessing took 0.19 seconds
+2025-04-14 21:25:09,829 - INFO - Model prediction took 0.18 seconds
+2025-04-14 21:25:09,829 - INFO - Applying business rules to predictions
+2025-04-14 21:25:10,994 - ERROR - Failed to write to MySQL: 1062 (23000): Duplicate entry '14001' for key 'PRIMARY'
+2025-04-14 21:25:10,994 - INFO - MySQL operations took 0.75 seconds
+2025-04-14 21:25:10,994 - INFO - Sampling 100.00% of labeled data for retraining
+2025-04-14 21:25:11,130 - INFO - Retraining model with 1000 labeled records
+2025-04-14 21:25:14,574 - INFO - Combined dataset for retraining: 21170 records
+2025-04-14 21:25:19,354 - INFO - Training model...
+2025-04-14 21:25:30,161 - INFO - Model AUC: 0.511
+2025-04-14 21:25:30,161 - INFO - Model updated with new data
+2025-04-14 21:25:30,212 - INFO - Retraining took 19.22 seconds
+2025-04-14 21:25:30,249 - INFO - Batch 870 completed in 22.33 seconds
+2025-04-14 21:25:30,327 - ERROR - Pipeline failed: [STREAM_FAILED] Query [id = dd6d1d1f-424a-4494-8daf-f2c960123135, runId = 90c14f64-272d-498e-b9d1-7ea95fec22d6] terminated with exception: [CONCURRENT_STREAM_LOG_UPDATE] Concurrent update to the log. Multiple streaming jobs detected for 870.
+Please make sure only one streaming job runs on a specific checkpoint location at a time.
+2025-04-14 21:25:30,327 - ERROR - Detailed stack trace
+Traceback (most recent call last):
+  File "/home/kajome/Projects/churn-predictions/scripts/spark_pipeline.py", line 465, in <module>
+    process_stream()
+  File "/home/kajome/Projects/churn-predictions/scripts/spark_pipeline.py", line 457, in process_stream
+    query.awaitTermination()
+  File "/usr/local/spark/python/lib/pyspark.zip/pyspark/sql/streaming/query.py", line 221, in awaitTermination
+    return self._jsq.awaitTermination()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/spark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py", line 1322, in __call__
+    return_value = get_return_value(
+                   ^^^^^^^^^^^^^^^^^
+  File "/usr/local/spark/python/lib/pyspark.zip/pyspark/errors/exceptions/captured.py", line 185, in deco
+    raise converted from None
+pyspark.errors.exceptions.captured.StreamingQueryException: [STREAM_FAILED] Query [id = dd6d1d1f-424a-4494-8daf-f2c960123135, runId = 90c14f64-272d-498e-b9d1-7ea95fec22d6] terminated with exception: [CONCURRENT_STREAM_LOG_UPDATE] Concurrent update to the log. Multiple streaming jobs detected for 870.
+Please make sure only one streaming job runs on a specific checkpoint location at a time.
+2025-04-14 21:25:30,844 - INFO - Pipeline completed
+2025-04-14 21:25:30,844 - INFO - Closing down clientserver connection

@@ -4,12 +4,13 @@ from pyspark.ml.classification import RandomForestClassifier
 from pyspark.ml.evaluation import BinaryClassificationEvaluator
 from pyspark.ml import Pipeline
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, FloatType
-from pyspark.sql.functions import col, when, lit, from_json, current_timestamp
+from pyspark.sql.functions import col, isnan, when, lit, from_json, current_timestamp
 import mysql.connector
 import logging
 from datetime import datetime
 import os
 import time
+import sys
 import gc
 
 # Initialize logging
