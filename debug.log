@@ -2055,3 +2055,5 @@ Get predictions: draw=1, start=0, length=10, search=
 Dashboard data request: subscription_type=, age_range=, churn_prediction=, timeframe=30
 Get predictions: draw=1, start=0, length=10, search=
 Not Found: /favicon.ico
+Dashboard data request: subscription_type=, age_range=, churn_prediction=, timeframe=30
+Get predictions: draw=1, start=0, length=10, search=
